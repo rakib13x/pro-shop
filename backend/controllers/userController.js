@@ -53,6 +53,11 @@ const registerUser = asyncHandler(async (req, res) => {
   }
 });
 
+const logoutUser = (req, res) => {
+  res.clearCookie("jwt");
+  res.status(200).json({ message: "Logged out successfully" });
+};
+
 const getUserProfile = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id);
 
@@ -69,4 +74,4 @@ const getUserProfile = asyncHandler(async (req, res) => {
   }
 });
 
-export { registerUser, authUser, getUserProfile };
+export { registerUser, authUser, getUserProfile, logoutUser };
