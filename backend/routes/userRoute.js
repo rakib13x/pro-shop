@@ -6,6 +6,7 @@ import {
   getUsers,
   getUserById,
   updateUser,
+  deleteUser,
 } from "../controllers/userController";
 import { protect, admin } from "../middleware/authMiddleware";
 
@@ -16,6 +17,7 @@ router.post("/logout", logoutUser);
 router.route("/profile").get(protect, getUserProfile);
 router
   .route("/:id")
+  .delete(protect, admin, deleteUser)
   .get(protect, admin, getUserById)
   .put(protect, admin, updateUser);
 
