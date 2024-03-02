@@ -22,6 +22,21 @@ const getProducts = asyncHandler(async (req, res) => {
   res.json({ products, page, pages: Math.ceil(count / pageSize) });
 });
 
+const getProductById = asyncHandler(async (req, res) => {
+  // NOTE: checking for valid ObjectId to prevent CastError moved to separate
+  // middleware. See README for more info.
+
+  const product = await Product.findById(req.params.id);
+  if (product) {
+    return res.json(product);
+  } else {
+    // NOTE: this will run if a valid ObjectId but no product was found
+    // i.e. product may be null
+    res.status(404);
+    throw new Error("Product not found");
+  }
+});
+
 const createProduct = asyncHandler(async (req, res) => {
   const product = new Product({
     name: "Sample name",
@@ -39,4 +54,4 @@ const createProduct = asyncHandler(async (req, res) => {
   res.status(201).json(createdProduct);
 });
 
-export { getProducts, createProduct };
+export { getProducts, createProduct, getProductById };
