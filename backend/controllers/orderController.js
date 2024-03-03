@@ -45,10 +45,14 @@ const addOrderItems = asyncHandler(async (req, res) => {
     res.status(201).json(createdOrder);
   }
 });
+const getMyOrders = asyncHandler(async (req, res) => {
+  const orders = await Order.find({ user: req.user._id });
+  res.json(orders);
+});
 
 const getOrders = asyncHandler(async (req, res) => {
   const orders = await Order.find({}).populate("user", "id name");
   res.json(orders);
 });
 
-export { addOrderItems, getOrders };
+export { addOrderItems, getOrders, getMyOrders };
